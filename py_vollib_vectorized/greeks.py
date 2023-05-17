@@ -105,7 +105,7 @@ def theta(flag, S, K, t, r, sigma, q=None, *,  model="black_scholes", return_as=
     _validate_data(flag, S, K, t, r, sigma)
 
     if model == "black":
-        b = 0
+        b = 0 * r
         theta = numerical_theta_black(flag, S, K, t, r, sigma, b)
 
     elif model == "black_scholes":
@@ -166,7 +166,7 @@ def vega(flag, S, K, t, r, sigma, q=None, *, model="black_scholes", return_as="d
     _validate_data(flag, S, K, t, r, sigma)
 
     if model == "black":
-        b = 0
+        b = 0 * r
         vega = numerical_vega_black(flag, S, K, t, r, sigma, b)
 
     elif model == "black_scholes":
@@ -228,7 +228,7 @@ def rho(flag, S, K, t, r, sigma, q=None, *, model="black_scholes", return_as="da
     _validate_data(flag, S, K, t, r, sigma)
 
     if model == "black":
-        b = 0
+        b = 0 * r
         rho = numerical_rho_black(flag, S, K, t, r, sigma, b)
 
     elif model == "black_scholes":
@@ -289,7 +289,7 @@ def gamma(flag, S, K, t, r, sigma, q=None, *,  model="black_scholes", return_as=
     _validate_data(flag, S, K, t, r, sigma)
 
     if model == "black":
-        b = 0
+        b = 0 * r
         # black scholes, it calls the black_scholes function and not the black function.
         gamma = numerical_gamma_black(flag, S, K, t, r, sigma, b)
     elif model == "black_scholes":
