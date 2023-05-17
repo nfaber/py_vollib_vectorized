@@ -43,7 +43,7 @@ def delta(flag, S, K, t, r, sigma, q=None, *, model="black_scholes", return_as="
     _validate_data(flag, S, K, t, r, sigma)
 
     if model == "black":
-        b = 0
+        b = 0 * r
         delta = numerical_delta_black(flag, S, K, t, r, sigma, b)
     elif model == "black_scholes":
         b = r
