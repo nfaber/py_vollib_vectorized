@@ -8,9 +8,9 @@ dS = .01
 #### BLACK
 
 @maybe_jit()
-def numerical_delta_black(flags, Fs, Ks, ts, rs, sigmas):
+def numerical_delta_black(flags, Fs, Ks, ts, rs, sigmas, bs):
     deltas = []
-    for flag, F, K, t, r, sigma in zip(flags, Fs, Ks, ts, rs, sigmas):
+    for flag, F, K, t, r, sigma, b in zip(flags, Fs, Ks, ts, rs, sigmas, bs):
         if t == 0.0:
             if F == K:
                 if flag > 0:  # call option
@@ -35,9 +35,9 @@ def numerical_delta_black(flags, Fs, Ks, ts, rs, sigmas):
 
 
 @maybe_jit()
-def numerical_theta_black(flags, Fs, Ks, ts, rs, sigmas):
+def numerical_theta_black(flags, Fs, Ks, ts, rs, sigmas, bs):
     thetas = []
-    for flag, F, K, t, r, sigma in zip(flags, Fs, Ks, ts, rs, sigmas):
+    for flag, F, K, t, r, sigma, b in zip(flags, Fs, Ks, ts, rs, sigmas, bs):
         if t <= 1. / 365.:
             theta = black(F, K, sigma, 0.00001, flag) - black(F, K, sigma, t, flag)
         else:
@@ -47,20 +47,20 @@ def numerical_theta_black(flags, Fs, Ks, ts, rs, sigmas):
 
 
 @maybe_jit()
-def numerical_vega_black(flags, Fs, Ks, ts, rs, sigmas):
+def numerical_vega_black(flags, Fs, Ks, ts, rs, sigmas, bs):
     vegas = []
 
-    for flag, F, K, t, r, sigma in zip(flags, Fs, Ks, ts, rs, sigmas):
+    for flag, F, K, t, r, sigma, b in zip(flags, Fs, Ks, ts, rs, sigmas, bs):
         vega = (black(F, K, sigma + 0.01, t, flag) - black(F, K, sigma - 0.01, t, flag)) / 2.
         vegas.append(vega)
     return vegas
 
 
 @maybe_jit()
-def numerical_rho_black(flags, Fs, Ks, ts, rs, sigmas):
+def numerical_rho_black(flags, Fs, Ks, ts, rs, sigmas, bs):
     rhos = []
 
-    for flag, F, K, t, r, sigma in zip(flags, Fs, Ks, ts, rs, sigmas):
+    for flag, F, K, t, r, sigma, b in zip(flags, Fs, Ks, ts, rs, sigmas, bs):
         black(F, K, sigma. t, flag)
         rho = (black(flag, F, K, t, r + 0.01, sigma) - black(flag, F, K, t, r - 0.01, sigma)) / 2.
         rhos.append(rho)
@@ -69,10 +69,10 @@ def numerical_rho_black(flags, Fs, Ks, ts, rs, sigmas):
 
 
 @maybe_jit()
-def numerical_gamma_black(flags, Fs, Ks, ts, rs, sigmas):
+def numerical_gamma_black(flags, Fs, Ks, ts, rs, sigmas, bs):
     gammas = []
 
-    for flag, F, K, t, r, sigma in zip(flags, Fs, Ks, ts, rs, sigmas):
+    for flag, F, K, t, r, sigma, b in zip(flags, Fs, Ks, ts, rs, sigmas, bs):
         if t == 0:
             gamma = np.inf if F == K else 0.0
         else:
